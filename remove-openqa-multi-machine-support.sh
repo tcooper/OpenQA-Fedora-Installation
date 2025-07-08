@@ -116,20 +116,6 @@ unconfigure_firewall() {
 
 }
 
-remove_default_bridge() {
-
-	# NOTE: It's possible we don't need to do anything with this once firewall
-	#       config is cleaned up.
-
-	set +e
-	if nmcli con show br0 ; then
-		set -e
-		nmcli con del br0
-	fi
-	set -e
-
-}
-
 uninstall_packages() {
 
 	# NOTE: Removing these packages isn't srictly necessary but doing so
@@ -141,7 +127,6 @@ uninstall_packages() {
 	set -e
 
 }
-
 
 disable_ip_forwarding() {
 
@@ -157,7 +142,6 @@ main() {
     unconfigure_openvswitch
     unconfigure_multimachine_in_networkmanager
     unconfigure_firewall
-    remove_default_bridge
     disable_ip_forwarding
     uninstall_packages
 }

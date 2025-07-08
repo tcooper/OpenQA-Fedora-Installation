@@ -83,17 +83,6 @@ install_packages() {
 
 }
 
-add_default_bridge() {
-
-    # This seemed like it was required here for the firewalld.service to start and be modifiable in configure_firewall
-    # but that may be due to old config being present. Disable/test without this in place... I don't have it in my DEV
-    # instance.
-    PAGER="" nmcli con show br0 || \
-        nmcli connection add con-name br0 ifname br0 \
-        type ovs-bridge
-
-}
-
 configure_firewall() {
 
     systemctl is-active firewalld.service || systemctl enable --now firewalld.service
@@ -222,7 +211,6 @@ main() {
 
     ensure_ip_forwarding
     install_packages
-    # disabled for testing - add_default_bridge
     configure_firewall
     start_openvswitch
     setup_multi_machine_with_networkmanager
